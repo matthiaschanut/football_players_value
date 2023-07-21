@@ -26,6 +26,7 @@ SELECT
 FROM sq1
 LEFT JOIN {{ref('stg_competitions')}} t2
 ON current_club_domestic_competition_id = competition_id
+WHERE age <36
 
 
 
