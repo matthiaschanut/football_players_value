@@ -18,6 +18,7 @@ WITH sq1 AS (
     FROM {{ref('stg_player_valuations')}} t1
     LEFT JOIN {{ref('stg_players')}} t2
     ON t1.player_id = t2.player_id
+    WHERE position NOT IN ("Missing")
 )
 
 SELECT
