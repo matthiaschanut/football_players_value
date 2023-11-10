@@ -1,17 +1,22 @@
 SELECT
     t1.player_id,
-    /*t3.name,
-    t3.current_age,
-    t3.current_club_name,
-    t3.position,
-    t3.sub_position,*/
-    t2.season,
-    ROUND(SUM(t1.goals),0) as sum_goals,
-    ROUND(SUM(t1.assists),0) as sum_assists,
-    ROUND(SUM(yellow_cards),0) as sum_yellow_cards,
-    ROUND(SUM(red_cards),0) as sum_red_cards,
-    ROUND(SUM(minutes_played)/(COUNT(t2.game_id)*90),2) as perc_min_played,
-FROM {{ ref('stg_appearances') }} t1
-LEFT JOIN {{ ref('clean_games') }} t2 ON t1.game_id = t2.game_id
-LEFT JOIN {{ ref('clean_players') }} t3 ON t1.player_id = t3.player_id
-GROUP BY player_id, name, current_age, current_club_name, position, sub_position, season
+    t3.season,
+    t1.name,
+    t1.current_age,
+    --t1.current_club_name,
+    --t1.position,
+    t1.sub_position,
+    SUM(t2.goals) as sum_goals,
+    SUM(t2.assists) as sum_assists,
+    SUM(t2.yellow_cards) as sum_yellow_cards,
+    SUM(t2.red_cards) as sum_red_cards,
+    ROUND(SUM(t2.minutes_played)/(COUNT(t2.game_id)*90),2) as perc_min_played,
+    AVG(t4.tot_pts) as avg_pts
+FROM {{ ref('clean_players') }} t1
+LEFT JOIN {{ ref('stg_appearances') }} t2 ON t1.player_id = t2.player_id
+LEFT JOIN {{ ref('clean_games') }} t3 ON t2.game_id = t3.game_id
+LEFT JOIN {{ ref('int_scoring_system') }} t4 ON t2.game_id = t4.game_id AND t1.player_id = t4.player_id
+
+--WHERE t1.player_id = 93720 
+
+GROUP BY t1.player_id,t1.name,t1.current_age,t1.sub_position,t3.season

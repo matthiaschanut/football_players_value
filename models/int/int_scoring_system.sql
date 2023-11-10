@@ -1,5 +1,5 @@
 -- TEST SCORING
-
+WITH sq1 AS (
 SELECT
     t1.game_id,
     t5.date,
@@ -37,5 +37,15 @@ LEFT JOIN {{ ref('clean_players') }} t2 ON t1.player_id = t2.player_id
 LEFT JOIN {{ ref('clean_game_lineups') }} t3 ON t1.game_id = t3.game_id
 LEFT JOIN {{ ref('stg_scoring_matrix') }} t4 ON t2.sub_position = t4.sub_position
 LEFT JOIN {{ ref('clean_games') }} t5 ON t1.game_id = t5.game_id
+)
 
+SELECT
+    sq1.*,
+    CASE
+        WHEN (starter_pts + goal_pts + assists_pts + yellow_cards_pts + red_cards_pts + no_yellow_pts + goals_against_pts + clean_sheet_pts) > 100 THEN 100
+        WHEN (starter_pts + goal_pts + assists_pts + yellow_cards_pts + red_cards_pts + no_yellow_pts + goals_against_pts + clean_sheet_pts) < 0 THEN 0
+        ELSE (starter_pts + goal_pts + assists_pts + yellow_cards_pts + red_cards_pts + no_yellow_pts + goals_against_pts + clean_sheet_pts) 
+    END AS tot_pts
+FROM sq1
+ORDER BY tot_pts DESC
 --WHERE t2.sub_position IS NOT NULL AND t3.type IS NULL AND t1.player_id = 607223.0
