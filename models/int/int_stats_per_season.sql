@@ -12,6 +12,6 @@ SELECT
     ROUND(SUM(red_cards),0) as sum_red_cards,
     ROUND(SUM(minutes_played)/(COUNT(t2.game_id)*90),2) as perc_min_played,
 FROM {{ ref('stg_appearances') }} t1
-LEFT JOIN {{ ref('int_games') }} t2 ON t1.game_id = t2.game_id
-LEFT JOIN {{ ref('int_players') }} t3 ON t1.player_id = t3.player_id
+LEFT JOIN {{ ref('clean_games') }} t2 ON t1.game_id = t2.game_id
+LEFT JOIN {{ ref('clean_players') }} t3 ON t1.player_id = t3.player_id
 GROUP BY player_id, name, current_age, current_club_name, position, sub_position, season
