@@ -16,7 +16,7 @@ WITH sq1 AS (
         t2.current_club_name,
         t2.current_club_domestic_competition_id
     FROM {{ref('stg_player_valuations')}} t1
-    LEFT JOIN {{ref('int_players')}} t2
+    LEFT JOIN {{ref('clean_players')}} t2
     ON t1.player_id = t2.player_id
     WHERE position NOT IN ("Missing")
 )
@@ -25,7 +25,7 @@ SELECT
     sq1.*,
     t2.name AS competition_name
 FROM sq1
-LEFT JOIN {{ref('int_competitions')}} t2
+LEFT JOIN {{ref('clean_competitions')}} t2
 ON current_club_domestic_competition_id = competition_id
 WHERE age <36
 
