@@ -35,7 +35,9 @@ models:
   football_players_value:
     staging:
       +materialized: view
+    clean:
+      +materialized: view
     int:
       +materialized: view
     kpi:
-      +materialized: table
+      +materialized: table  
