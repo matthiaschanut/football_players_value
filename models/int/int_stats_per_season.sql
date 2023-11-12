@@ -12,9 +12,9 @@ SELECT
     SUM(t2.red_cards) as sum_red_cards,
     ROUND(SUM(t2.minutes_played)/(COUNT(t2.game_id)*90),2) as perc_min_played,
     AVG(t4.tot_pts) as avg_pts
-FROM {{ ref('clean_players') }} t1
+FROM {{ ref('stg_players') }} t1
 LEFT JOIN {{ ref('stg_appearances') }} t2 ON t1.player_id = t2.player_id
-LEFT JOIN {{ ref('clean_games') }} t3 ON t2.game_id = t3.game_id
+LEFT JOIN {{ ref('stg_games') }} t3 ON t2.game_id = t3.game_id
 LEFT JOIN {{ ref('int_scoring_system') }} t4 ON t2.game_id = t4.game_id AND t1.player_id = t4.player_id
 
 --WHERE t1.player_id = 93720 

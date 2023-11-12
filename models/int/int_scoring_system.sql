@@ -7,11 +7,10 @@ SELECT
     t1.player_id,
     t2.name,
     t1.player_club_id,
-    t3.type,
     t2.sub_position,
     CASE 
-        WHEN t3.type ='starting_lineup' THEN t4.starting_lineup
-        WHEN t3.type ='substitutes' THEN t4.substitutes
+        WHEN t1.minutes_played >= 60 THEN t4.total_match
+        WHEN t1.minutes_played < 60 THEN t4.half_match
         ELSE 0
     END AS starter_pts,
     (t1.goals*t4.goals) as goal_pts,
@@ -33,10 +32,9 @@ SELECT
         ELSE 0
     END AS clean_sheet_pts
 FROM {{ ref('stg_appearances') }} t1
-LEFT JOIN {{ ref('clean_players') }} t2 ON t1.player_id = t2.player_id
-LEFT JOIN {{ ref('clean_game_lineups') }} t3 ON t1.game_id = t3.game_id
+LEFT JOIN {{ ref('stg_players') }} t2 ON t1.player_id = t2.player_id
 LEFT JOIN {{ ref('stg_scoring_matrix') }} t4 ON t2.sub_position = t4.sub_position
-LEFT JOIN {{ ref('clean_games') }} t5 ON t1.game_id = t5.game_id
+LEFT JOIN {{ ref('stg_games') }} t5 ON t1.game_id = t5.game_id
 )
 
 SELECT
@@ -48,4 +46,3 @@ SELECT
     END AS tot_pts
 FROM sq1
 ORDER BY tot_pts DESC
---WHERE t2.sub_position IS NOT NULL AND t3.type IS NULL AND t1.player_id = 607223.0
