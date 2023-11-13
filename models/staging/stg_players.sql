@@ -9,4 +9,4 @@ SELECT
     *,
     DATE_DIFF(CURRENT_DATE,date_of_birth,YEAR) as current_age
 FROM sq1
-WHERE name IS NOT NULL
+WHERE name IS NOT NULL AND sub_position IS NOT NULL

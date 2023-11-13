@@ -11,7 +11,7 @@ SELECT
     SUM(t2.yellow_cards) as sum_yellow_cards,
     SUM(t2.red_cards) as sum_red_cards,
     ROUND((SUM(t2.minutes_played)/t5.team_min_played),2) as perc_min_played,
-    AVG(t4.tot_pts) as avg_pts
+    ROUND(AVG(t4.tot_pts),1) as avg_pts
 FROM {{ ref('stg_players') }} t1
 LEFT JOIN {{ ref('stg_appearances') }} t2 ON t1.player_id = t2.player_id
 LEFT JOIN {{ ref('stg_games') }} t3 ON t2.game_id = t3.game_id
