@@ -17,4 +17,5 @@ LEFT JOIN {{ ref('stg_appearances') }} t2 ON t1.player_id = t2.player_id
 LEFT JOIN {{ ref('stg_games') }} t3 ON t2.game_id = t3.game_id
 LEFT JOIN {{ ref('int_scoring_system') }} t4 ON t2.game_id = t4.game_id AND t1.player_id = t4.player_id
 JOIN {{ ref('int_min_played_by_team') }} t5 ON t2.player_club_id = t5.club_id AND t3.season = t5.season
+WHERE t1.current_age IS NOT NULL AND t1.sub_position IS NOT NULL
 GROUP BY t1.player_id,t1.name,t1.current_age,t1.sub_position,t3.season,t5.team_min_played
