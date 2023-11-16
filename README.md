@@ -1,15 +1,5 @@
-Welcome to your new dbt project!
+The goal of the project was to use a free data set of Transfermarkt data in order to provide an in-depth analysis of football players’ value.
 
-### Using the starter project
-
-Try running the following commands:
-- dbt run
-- dbt test
-
-
-### Resources:
-- Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
-- Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers
-- Join the [dbt community](http://community.getbdt.com/) to learn from other analytics engineers
-- Find [dbt events](https://events.getdbt.com) near you
-- Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
+What is the good value for a player?
+How can clubs asset it?
+Which characteristics should they take into account?
